@@ -7,12 +7,13 @@ class NotesView{
         this.onNoteDelete = onNoteDelete;
         this.root.innerHTML = `
             <div class="notes__sidebar">
-                <button class="notes__add" type="button"> Add Note </button>
-                <div class="notes__list"></div>
-            </div>
+                <button class="notes__add" type="button">Add Note</button>
+                <div class="notes__list"> </div>
+            </div> 
             <div class="notes__preview">
-                    <input class="notes__title" type="text" placeholder="New Note">
-                    <textarea class="notes__body">Take Note...</textarea>
+
+                <input class="notes__title" type="text">
+                <textarea class="notes__body"></textarea>
             </div> 
         `;
 
@@ -26,14 +27,14 @@ class NotesView{
 
         [inpTitle, inpBody].forEach(inputField => {
             inputField.addEventListener( "blur",() => {
-            const updatedTitle = inpTitle.value.trim();
-            const updatedBody = inpBody.value.trim();
+                const updatedTitle = inpTitle.value.trim();
+                const updatedBody = inpBody.value.trim();
 
             this.onNoteEdit(updatedTitle,updatedBody);
         });
         });
 
-        //To do: hide the note preview by default
+        this.updatedNotePreviewVisibility(false);
 
     }
 
@@ -52,7 +53,7 @@ class NotesView{
         
         </div>
 
-        `
+        `;
     }
 
     updateNoteList(notes){
@@ -70,8 +71,8 @@ class NotesView{
 
         //Add select/delete events for each list item
 
-        notesListContainer.querySelectorAll(".notes__list-item").forEach(noteListItem =>{
-            noteListItem.addEventListener("click",() =>{
+        notesListContainer.querySelectorAll(".notes__list-item").forEach(noteListItem => {
+            noteListItem.addEventListener("click",() => {
                 this.onNoteSelect(noteListItem.dataset.noteId);
             });
 
@@ -80,7 +81,7 @@ class NotesView{
                 if(doDelete){
                     this.onNoteDelete(noteListItem.dataset.noteId);
                 }
-            })
+            });
 
         });
 
@@ -88,5 +89,19 @@ class NotesView{
 
     }
 
+    updatedActiveNote(note){
+        this.root.querySelector(".notes__title").value=note.title;
+        this.root.querySelector(".notes__body").value=note.body;
 
-}
+        this.root.querySelectorAll(".notes__list-item").forEach(noteListItem => {
+            noteListItem.classList.remove("notes__list-item--selected");
+        } );
+
+        this.root.querySelector(`.notes__list-item[data-note-id="${note.id}"]`).classList.add("notes__list-item-selected");
+    }
+        updatedNotePreviewVisibility(visible){
+            this.root.querySelector(".notes__preview").style.visibility = visible ? "visible" : "hidden";
+        }
+    }
+
+
