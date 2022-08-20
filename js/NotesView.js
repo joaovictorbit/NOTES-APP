@@ -8,6 +8,7 @@ class NotesView{
         this.root.innerHTML = `
             <div class="notes__sidebar">
                 <button class="notes__add" type="button">Add Note</button>
+            
                 <div class="notes__list"> </div>
             </div> 
             <div class="notes__preview">
@@ -59,7 +60,6 @@ class NotesView{
     updateNoteList(notes){
         const notesListContainer = this.root.querySelector(".notes__list");
 
-        //Empty list
         notesListContainer.innerHTML = "";
 
         for (const note of notes) {
@@ -69,7 +69,6 @@ class NotesView{
         
         }
 
-        //Add select/delete events for each list item
 
         notesListContainer.querySelectorAll(".notes__list-item").forEach(noteListItem => {
             noteListItem.addEventListener("click",() => {
